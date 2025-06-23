@@ -51,4 +51,14 @@
   color: white;
 }
 
+body {
+  background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
+  background-color: #fdfdfd;
+}
+
+body.dark-mode {
+  background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
+  background-color: #121212;
+}
+
 }
