@@ -35,4 +35,20 @@
 .dark-mode ion-icon {
   color: #f7fafc;
 }
+
+#connects {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.linkedin-icon {
+  color: #0A66C2;
+}
+
+.dark-mode .linkedin-icon {
+  color: white;
+}
+
 }

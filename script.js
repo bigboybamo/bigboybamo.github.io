@@ -46,10 +46,13 @@ assignDOM(dom.main.role(), main.role);
 
 // External Links (ICONS)
 const connectsDOM = main.connects
-  .map(
-    ({ name, iconName, link }) =>
-      `<a href=${link} target="_blank"><ion-icon name="${iconName}" title="${name}"></ion-icon></a>`
-  )
+  .map(({ name, iconName, link }) => {
+    if (name === 'LinkedIn') {
+      return `<a href=${link} target="_blank"><ion-icon name="${iconName}"  class="linkedin-icon" title="${name}"></ion-icon></a>`;
+    } else {
+      return `<a href="${link}" target="_blank" title="${name}">${iconName}</a>`;
+    }
+  })
   .join('\n');
 assignDOM(dom.main.connects(), connectsDOM);
 
@@ -69,6 +72,15 @@ toggleButton.addEventListener('click', () => {
 
   const isDark = document.body.classList.contains('dark-mode');
   icon.setAttribute('name', isDark ? 'sunny-outline' : 'moon-outline');
+
+   document.querySelectorAll('.icon-img').forEach(img => {
+    const currentSrc = img.src;
+    const parts = currentSrc.split('/');
+    const iconName = parts[3]; 
+    img.src = isDark
+      ? `https://cdn.simpleicons.org/${iconName}/white`
+      : `https://cdn.simpleicons.org/${iconName}`;
+  });
 });
 
 
