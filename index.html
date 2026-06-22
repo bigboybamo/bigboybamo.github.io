@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olabamiji Oyetubo</title>
+  <meta name="description" content="Olabamiji Oyetubo — Software Engineer, Technical Consultant, Open Source Contributor." />
   <link rel="shortcut icon" href="./Olabamiji_Linkedin_pic.png" />
 
-  <!-- StyleSheets -->
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="./index.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
 
+  <link rel="stylesheet" href="./index.css" />
 </head>
 <body>
-<div class="text-right p-4">
-  <button id="theme-toggle" class="text-2xl">
-    <ion-icon id="theme-icon" name="moon-outline"></ion-icon>
+  <button id="theme-toggle" aria-label="Toggle color theme">
+    <span id="theme-icon" class="theme-icon"></span>
   </button>
-</div>
-  <div id="main" class="relative h-screen border-b-2 lg:grid lg:grid-cols-2 lg:gap-4">
-    <!-- CSS: right sight border as line seperator 
-      - Phone top - down
-      - Lap right left.
-    -->
-    <div id="left" class="left lg:my-0 my-20 ">
-      <div class="imgBorder border-r-2">
-        <img id='img' src="" alt="" class="img m-auto w-64 main-image rounded-lg" >
-      </div>
-    </div>
 
-    <!-- Main - Contents -->
-    <div id="contents" class="m-auto px-4 lg:my-20 child">
-      <div id="name" class="text-center lg:text-left text-6xl"></div>
-      <div id="role" class="text-center lg:text-left text-3xl"></div>
-      <div id="connects" class="text-center lg:text-left text-3xl my-4">
-        
-      </div>
-      <div id="links" class="text-center lg:text-left"></div>
-      <a target="_top" id="mail" class="block text-center lg:text-left text-sm my-2"></a>
-    </div>
-  </div>
+  <main class="container">
+    <!-- Hero -->
+    <header class="hero">
+      <h1 id="name" class="name"></h1>
+      <p id="role" class="role"></p>
+      <p id="intro" class="intro"></p>
+    </header>
 
-  <!-- <ion-icon name="heart"></ion-icon> -->
-  <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    <!-- About -->
+    <section class="row" aria-labelledby="about-label">
+      <h2 id="about-label" class="label">About</h2>
+      <div id="about" class="content"></div>
+    </section>
+
+    <!-- Writing -->
+    <section class="row" aria-labelledby="writing-label">
+      <h2 id="writing-label" class="label">Writing</h2>
+      <div id="writing" class="content"></div>
+    </section>
+
+    <!-- Footer / Connect -->
+    <footer class="row" aria-labelledby="connect-label">
+      <h2 id="connect-label" class="label">Connect</h2>
+      <div id="connects" class="content connects"></div>
+    </footer>
+  </main>
+
   <script src="./data.js"></script>
   <script src="./script.js"></script>
 </body>

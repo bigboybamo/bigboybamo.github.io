@@ -1,64 +1,278 @@
-@media (min-width: 1024px) { 
-  #main {
-    font-size: 1.2em;
-    overflow: hidden;
-  }
+/* ---------- Theme tokens ---------- */
+:root {
+  --bg: #0d0d0f;
+  --bg-soft: #16161a;
+  --text: #ededed;
+  --text-muted: #8b8b94;
+  --text-faint: #5c5c66;
+  --border: #26262c;
+  --accent: #5eead4;
+  --accent-dim: #2dd4bf;
+  --selection: rgba(94, 234, 212, 0.25);
 
-  .main-image {
-    width: 80%;
-  }
-
-  .child {
-    position: relative;
-    top: 50%;
-    height: 100vh;
-    width: 100%;
-    margin-top: -128px; /* account for padding and border if not using box-sizing: border-box; */
-    overflow: hidden;
-  }
-
-  #main .imgBorder {
-    position: relative;
-    top: 50vh;
-    transform: translateY(-50%);
-  }
-
-  .dark-mode {
-  background-color: #1a202c;
-  color: #f7fafc;
+  --max-width: 680px;
+  --label-width: 110px;
 }
 
-.dark-mode a {
-  color: #90cdf4;
+body.light-mode {
+  --bg: #fbfbfb;
+  --bg-soft: #f1f1f3;
+  --text: #1a1a1f;
+  --text-muted: #6b6b76;
+  --text-faint: #9a9aa4;
+  --border: #e4e4e9;
+  --accent: #0d9488;
+  --accent-dim: #14b8a6;
+  --selection: rgba(13, 148, 136, 0.15);
 }
 
-.dark-mode ion-icon {
-  color: #f7fafc;
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-#connects {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.linkedin-icon {
-  color: #0A66C2;
-}
-
-.dark-mode .linkedin-icon {
-  color: white;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
-  background-color: #fdfdfd;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.dark-mode {
-  background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
-  background-color: #121212;
+::selection {
+  background: var(--selection);
 }
 
+a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-faint);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------- Layout ---------- */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 96px 24px 120px;
+}
+
+.hero {
+  margin-bottom: 80px;
+}
+
+.name {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.role {
+  margin-top: 12px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.intro {
+  margin-top: 28px;
+  max-width: 52ch;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+/* Section rows: label on the left, content on the right */
+.row {
+  display: grid;
+  grid-template-columns: var(--label-width) 1fr;
+  gap: 24px;
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+}
+
+.label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding-top: 4px;
+}
+
+.content > p + p {
+  margin-top: 16px;
+}
+
+.content p {
+  color: var(--text-muted);
+}
+
+/* ---------- Writing ---------- */
+.writing-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.writing-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.writing-item:last-child {
+  border-bottom: none;
+}
+
+.writing-item a {
+  border-bottom: none;
+}
+
+.writing-item .date {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.writing-empty {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.writing-profile {
+  margin-top: 18px;
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--accent);
+  border-color: transparent;
+}
+
+.writing-profile:hover {
+  border-color: var(--accent);
+}
+
+/* ---------- Connect ---------- */
+.connects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+}
+
+.connect-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.connect-link:hover {
+  color: var(--accent);
+}
+
+.connect-link img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.connect-link:hover img {
+  opacity: 1;
+}
+
+/* ---------- Theme toggle ---------- */
+#theme-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ---------- Entrance animation ---------- */
+.hero,
+.row {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: rise 0.6s ease forwards;
+}
+
+.hero { animation-delay: 0.05s; }
+.row:nth-of-type(1) { animation-delay: 0.15s; }
+.row:nth-of-type(2) { animation-delay: 0.25s; }
+.row:nth-of-type(3) { animation-delay: 0.35s; }
+
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .row {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 620px) {
+  .container {
+    padding: 80px 20px 96px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .label {
+    padding-top: 0;
+  }
 }

@@ -1,87 +1,134 @@
-const getDOM = selector => () => {
-  return document.querySelector(selector);
-};
+/* ---------- Helpers ---------- */
+const $ = selector => document.querySelector(selector);
+const escapeHTML = str =>
+  String(str).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[ch]));
 
-document.title = `${main.name} | ${main.role}`
+document.title = `${main.name} — ${main.role.split('·')[0].trim()}`;
 
-// Values DOM nodes
-const dom = {
-  main: {
-    name: getDOM('#main #name'),
-    mail: getDOM('#main #mail'),
-    img: getDOM('#main #img'),
-    role: getDOM('#main #role'),
-    connects: getDOM('#main #connects'),
-    links: getDOM('#main #links')
-  },
-  projects: getDOM('#projects'),
-  logo: getDOM('#projects-page #logo')
-};
+/* ---------- Hero ---------- */
+$('#name').textContent = main.name;
+$('#role').textContent = main.role;
 
-function assignDOM(dom, value, options) {
-  console.log('dom, value, img:', dom, value, img);
-
-  if (options && options.isImg) {
-    dom.src = value;
-    return;
-  }
-
-  if (options && options.isAdjacent) {
-    dom.insertAdjacentHTML('afterbegin', value);
-  }
-
-  dom.innerHTML = value;
-}
-
-// Assigning
-
-// MAIN
-
-assignDOM(dom.main.name(), main.name);
-assignDOM(dom.main.mail(), main.mail);
-dom.main.mail().href = `mailto:${main.mail}?Subject=Hello%20again`;
-assignDOM(dom.main.img(), main.img, { isImg: true });
-assignDOM(dom.main.role(), main.role);
-// assignDOM(dom.main.links(), main.links)
-
-// External Links (ICONS)
-const connectsDOM = main.connects
-  .map(({ name, iconName, link }) => {
-    if (name === 'LinkedIn') {
-      return `<a href=${link} target="_blank"><ion-icon name="${iconName}"  class="linkedin-icon" title="${name}"></ion-icon></a>`;
-    } else {
-      return `<a href="${link}" target="_blank" title="${name}">${iconName}</a>`;
-    }
-  })
-  .join('\n');
-assignDOM(dom.main.connects(), connectsDOM);
-
-// Internal Links
-const getLinks = links =>
-  links
-    .map(({ name, link }) => `<a href="${link}" class="text-pink-500" >${name}</a>`)
-    .map((link, index, links) => index === links.length - 1 ? link: `${link} - `)
-    .join('\n');
-assignDOM(dom.main.links(), getLinks(main.links));
-
-const toggleButton = document.getElementById('theme-toggle');
-const icon = document.getElementById('theme-icon');
-
-toggleButton.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-
-  const isDark = document.body.classList.contains('dark-mode');
-  icon.setAttribute('name', isDark ? 'sunny-outline' : 'moon-outline');
-
-   document.querySelectorAll('.icon-img').forEach(img => {
-    const currentSrc = img.src;
-    const parts = currentSrc.split('/');
-    const iconName = parts[3]; 
-    img.src = isDark
-      ? `https://cdn.simpleicons.org/${iconName}/white`
-      : `https://cdn.simpleicons.org/${iconName}`;
-  });
+// Render intro, replacing {key} tokens with inline links from introLinks.
+$('#intro').innerHTML = (main.intro || '').replace(/\{(\w+)\}/g, (match, key) => {
+  const item = (main.introLinks || {})[key];
+  if (!item) return match;
+  return `<a href="${item.link}" target="_blank" rel="noopener">${escapeHTML(item.label)}</a>`;
 });
 
+/* ---------- About ---------- */
+$('#about').innerHTML = (main.about || [])
+  .map(p => `<p>${escapeHTML(p.replace(/\s+/g, ' ').trim())}</p>`)
+  .join('');
 
+/* ---------- Writing (live from Dev.to, newest first) ---------- */
+function formatDate(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
 
+function renderWriting(posts) {
+  const { profile } = main.writing || {};
+  let html = '';
+
+  if (posts.length) {
+    html += '<ul class="writing-list">';
+    html += posts
+      .map(
+        ({ title, link, date }) => `
+        <li class="writing-item">
+          <a href="${link}" target="_blank" rel="noopener">${escapeHTML(title)}</a>
+          ${date ? `<span class="date">${escapeHTML(date)}</span>` : ''}
+        </li>`
+      )
+      .join('');
+    html += '</ul>';
+  } else {
+    html += '<p class="writing-empty">Articles coming soon.</p>';
+  }
+
+  if (profile) {
+    html += `<a class="writing-profile" href="${profile.link}" target="_blank" rel="noopener">${escapeHTML(profile.label)} &rarr;</a>`;
+  }
+
+  $('#writing').innerHTML = html;
+}
+
+(async () => {
+  const { username, limit = 5, posts: fallback = [] } = main.writing || {};
+
+  // Show fallback (or "coming soon") immediately so there's no empty flash.
+  renderWriting(fallback);
+  if (!username) return;
+
+  try {
+    // Fetch a buffer beyond `limit` so we still hit `limit` real posts after
+    // filtering out non-articles (e.g. Dev.to "[Boost]" placeholders).
+    const res = await fetch(
+      `https://dev.to/api/articles?username=${encodeURIComponent(username)}&per_page=${limit + 5}`
+    );
+    if (!res.ok) throw new Error(`Dev.to API ${res.status}`);
+
+    // The API returns articles already sorted newest-first.
+    const articles = await res.json();
+    const isRealArticle = a => a.title && !/^\[.*\]$/.test(a.title.trim());
+    const posts = articles
+      .filter(isRealArticle)
+      .slice(0, limit)
+      .map(a => ({
+        title: a.title,
+        link: a.url,
+        date: formatDate(a.published_at)
+      }));
+
+    if (posts.length) renderWriting(posts);
+  } catch (err) {
+    // Network/offline: keep whatever was rendered from the fallback.
+    console.warn('Could not load Dev.to articles:', err);
+  }
+})();
+
+/* ---------- Connect ---------- */
+function iconURL(slug, isDark) {
+  return `https://cdn.simpleicons.org/${slug}/${isDark ? 'ededed' : '6b6b76'}`;
+}
+
+function renderConnects(isDark) {
+  $('#connects').innerHTML = (main.connects || [])
+    .map(
+      ({ name, slug, link }) => `
+      <a class="connect-link" href="${link}" target="_blank" rel="noopener" title="${escapeHTML(name)}">
+        <img class="icon-img" data-slug="${slug}" src="${iconURL(slug, isDark)}" alt="${escapeHTML(name)}" />
+        <span>${escapeHTML(name)}</span>
+      </a>`
+    )
+    .join('');
+}
+
+/* ---------- Theme ---------- */
+const toggle = $('#theme-toggle');
+const icon = $('#theme-icon');
+
+function applyTheme(isDark) {
+  document.body.classList.toggle('light-mode', !isDark);
+  icon.textContent = isDark ? '☀' : '☾';
+  renderConnects(isDark);
+}
+
+const saved = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+applyTheme(saved ? saved === 'dark' : prefersDark.matches);
+
+prefersDark.addEventListener('change', e => {
+  if (!localStorage.getItem('theme')) applyTheme(e.matches);
+});
+
+toggle.addEventListener('click', () => {
+  const isDark = document.body.classList.contains('light-mode'); // currently light -> going dark
+  applyTheme(isDark);
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});

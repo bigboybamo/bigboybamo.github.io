@@ -1,35 +1,63 @@
 const main = {
   name: 'Olabamiji Oyetubo',
-  mail: '',
+  mail: 'oyetubobamiji@gmail.com',
   img: './Olabamiji_Linkedin_pic.png',
-  role: ['Software Engineer, Technical Consultant, Open Source Contributor.'],
+  role: 'Software Engineer · Technical Consultant · Open Source Contributor',
+
+  // Short intro shown under the name. Use {placeholders} that map to the
+  // `introLinks` below to render inline links inside the sentence.
+  intro:
+    'I build software, advise teams on the systems behind it, and contribute to {opensource} along the way.',
+  introLinks: {
+    opensource: { label: 'open source', link: 'https://github.com/bigboybamo' }
+  },
+
+  about: [
+    `I'm a software engineer who enjoys turning fuzzy problems into reliable
+     systems. My work spans building products, consulting with teams on
+     architecture and delivery, and contributing back to the tools I use.`,
+    `Outside of shipping features, I care about developer experience, clean
+     interfaces, good docs, and code that the next person can actually read.`
+  ],
+
+  // Writing — pulled live from the Dev.to API, newest first. No manual edits
+  // needed; new posts appear automatically. `posts` below is only a fallback
+  // used if the API request fails (e.g. offline).
+  writing: {
+    username: 'bigboybamo',
+    limit: 3,
+    profile: { label: 'Read more on Dev.to', link: 'https://dev.to/bigboybamo' },
+    posts: [
+      // { title: 'Post title', link: 'https://dev.to/bigboybamo/...', date: '2025' }
+    ]
+  },
+
+  // Social / contact links shown in the footer.
   connects: [
-        {
-      name: 'Dev.to',
-      iconName: '<img class="icon-img" src="https://cdn.simpleicons.org/devdotto/black" width="24" alt="Dev.to" />',
-      link: `https://dev.to/bigboybamo`
-    },
     {
-      name: 'Github',
-      iconName: '<img class="icon-img" src="https://cdn.simpleicons.org/github/black" width="24" alt="GitHub" />',
+      name: 'GitHub',
+      slug: 'github',
       link: 'https://github.com/bigboybamo'
     },
     {
       name: 'LinkedIn',
-      iconName: 'logo-linkedin',
+      slug: 'linkedin',
       link: 'https://www.linkedin.com/in/olabamiji-o-9a5538162/'
     },
     {
-      name: 'StackOverflow',
-      iconName: '<img class="icon-img" src="https://cdn.simpleicons.org/stackoverflow" width="24" alt="StackOverflow" />',
+      name: 'Dev.to',
+      slug: 'devdotto',
+      link: 'https://dev.to/bigboybamo'
+    },
+    {
+      name: 'Stack Overflow',
+      slug: 'stackoverflow',
       link: 'https://stackoverflow.com/users/13279710/bamiji-o'
     },
     {
-      name: 'Mail',
-      iconName: '<img class="icon-img"  src="https://cdn.simpleicons.org/gmail" width="24" alt="Email" />',
-      link: `mailto:${'oyetubobamiji@gmail.com'}?Subject=Hello%20again`
+      name: 'Email',
+      slug: 'gmail',
+      link: 'mailto:oyetubobamiji@gmail.com?Subject=Hello'
     }
-  ],
-  links: [
   ]
 };
