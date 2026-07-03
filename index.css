@@ -125,6 +125,86 @@ a:hover {
   color: var(--text-muted);
 }
 
+/* ---------- Interesting things ---------- */
+.projects-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.project-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-item:last-child {
+  border-bottom: none;
+}
+
+.project-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.project-name {
+  border-bottom: none;
+  font-weight: 500;
+}
+
+.project-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-faint);
+}
+
+/* Own projects get the accent; work is emphasized; contributions stay muted. */
+.project-tag[data-type='Project'] {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+.project-tag[data-type='Work'] {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.project-desc {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.project-repo {
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+.project-issue {
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+.project-issue a {
+  color: var(--text-faint);
+  border-bottom: none;
+}
+
+.project-issue a:hover {
+  color: var(--accent);
+}
+
 /* ---------- Writing ---------- */
 .writing-list {
   list-style: none;

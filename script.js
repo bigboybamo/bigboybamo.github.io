@@ -23,6 +23,38 @@ $('#about').innerHTML = (main.about || [])
   .map(p => `<p>${escapeHTML(p.replace(/\s+/g, ' ').trim())}</p>`)
   .join('');
 
+/* ---------- Interesting things (own projects + open-source contributions) ---------- */
+$('#interesting').innerHTML = (() => {
+  const items = main.interesting || [];
+  if (!items.length) return '';
+
+  const rows = items
+    .map(({ name, type, description, link, repo, issue }) => {
+      const tag = type
+        ? `<span class="project-tag" data-type="${escapeHTML(type)}">${escapeHTML(type)}</span>`
+        : '';
+      const meta = repo
+        ? `<p class="project-repo">&rarr; ${escapeHTML(repo)}</p>`
+        : '';
+      const issueLink = issue
+        ? `<p class="project-issue"><a href="${issue.link}" target="_blank" rel="noopener">${escapeHTML(issue.label)}</a></p>`
+        : '';
+      return `
+        <li class="project-item">
+          <div class="project-head">
+            <a class="project-name" href="${link}" target="_blank" rel="noopener">${escapeHTML(name)}</a>
+            ${tag}
+          </div>
+          ${description ? `<p class="project-desc">${escapeHTML(description)}</p>` : ''}
+          ${meta}
+          ${issueLink}
+        </li>`;
+    })
+    .join('');
+
+  return `<ul class="projects-list">${rows}</ul>`;
+})();
+
 /* ---------- Writing (live from Dev.to, newest first) ---------- */
 function formatDate(iso) {
   const d = new Date(iso);
