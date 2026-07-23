@@ -1,0 +1,32 @@
+# Olabamiji Oyetubo
+
+> Personal portfolio for Olabamiji Oyetubo, a software engineer, technical consultant, and open source contributor focused on reliable software systems, backend services, AI-powered workflows, and practical engineering writing.
+
+This site is a concise professional profile. It highlights Olabamiji's engineering background, areas of interest, writing, and public contact links.
+
+## Site
+
+- [Portfolio homepage](https://olabamijidev.com/): Main personal website with profile, background, writing, and contact links.
+
+## Profiles
+
+- [GitHub](https://github.com/bigboybamo): Open source projects and public code.
+- [LinkedIn](https://www.linkedin.com/in/olabamiji-o-9a5538162/): Professional profile and work background.
+- [Dev.to](https://dev.to/bigboybamo): Technical writing and articles.
+- [Stack Overflow](https://stackoverflow.com/users/13279710/bamiji-o): Developer community profile.
+
+## Topics
+
+- Software engineering
+- Backend systems
+- Enterprise software
+- Banking systems
+- Technical consulting
+- Developer experience
+- Agentic AI
+- AI evaluations
+- AI-powered workflows
+
+## Optional
+
+- [Repository](https://github.com/bigboybamo/bigboybamo.github.io): Source code for this static portfolio site.
